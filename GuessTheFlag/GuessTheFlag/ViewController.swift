@@ -28,6 +28,9 @@ class ViewController: UIViewController {
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
         
+        navigationItem.rightBarButtonItem =
+        UIBarButtonItem(image: UIImage(systemName: "trophy"), style: .plain, target: self, action: #selector(scoreTapped))
+        
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
         
         askQuestion(action: nil)
@@ -41,13 +44,12 @@ class ViewController: UIViewController {
         button3.setImage(UIImage(named: countries[2]), for: .normal)
         
         correctAnswer = Int.random(in: 0...2)
-        title = "Score: \(score), Guess: \(countries[correctAnswer].uppercased())"
+        title = "Guess: \(countries[correctAnswer].uppercased())"
     }
 
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
         var message: String
-        
         
         if sender.tag == correctAnswer {
             score += 1
@@ -70,6 +72,13 @@ class ViewController: UIViewController {
         
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: questionsAnswered == 10 ? "Restart" : "Continue", style: .default, handler: askQuestion))
+        present(ac, animated: true)
+    }
+    
+    
+    @objc func scoreTapped() {
+        let ac = UIAlertController(title: "Your score is \(score)", message: "", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
     }
 }
